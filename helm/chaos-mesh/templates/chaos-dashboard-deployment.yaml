@@ -159,9 +159,16 @@ spec:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: chaos-dashboard
   type: {{ .Values.dashboard.service.type }}
+{{- if and .Values.dashboard.service.type (eq .Values.dashboard.service.type "LoadBalancer") }} 
+{{- with .Values.dashboard.service.loadBalancerSourceRanges }}
+  externalTrafficPolicy: Local 
+  loadBalancerSourceRanges: {{- toYaml . | nindent 4 }} 
+{{- end }} 
+{{- end }}
 {{- if and .Values.dashboard.service.clusterIP (eq .Values.dashboard.service.type "ClusterIP") }}
   clusterIP: {{ .Values.dashboard.service.clusterIP }}
 {{- end }}
+
   ports:
     - protocol: TCP
       port: {{ .Values.dashboard.env.LISTEN_PORT }}

@@ -280,6 +280,8 @@ dashboard:
     # clusterIP:
     # Set the `nodePort` of the dashboard service if the type is `NodePort`
     # nodePort:
+    # If you want the service type to be load balancer and restrict the IP addresses using loadBalancerSourceRanges you can add it here 
+    loadBalancerSourceRanges : {}
 
   # CPU/Memory resource requests/limits for chaos-dashboard pod
   resources:
